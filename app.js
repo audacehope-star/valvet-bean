@@ -3,10 +3,10 @@
 // ============================================================
 
 // Cafe's WhatsApp Business number (international format, no "+")
-const CAFE_WHATSAPP_NUMBER = "250780000000";
+const CAFE_WHATSAPP_NUMBER = "250793594775";
 
 // Fallback shown if an image fails to load
-const PLACEHOLDER_IMG = "images/placeholder.svg";
+const PLACEHOLDER_IMG = "placeholder.svg";
 
 // Menu dataset (prices in Rwandan Francs)
 // TIP: to use local photos, download them into /images and change the
