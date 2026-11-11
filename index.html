@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Velvet & Bean Co. | Artisanal Coffee & Roastery</title>
+
+    <!-- Tailwind CSS CDN + config -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="js/tailwind-config.js"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400..700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Leaflet CSS for Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-cream text-espresso font-sans antialiased selection:bg-caramel selection:text-white">
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-espresso text-cream text-xs sm:text-sm text-center py-2 px-4 tracking-wide font-medium">
+        ☕ Free pastry with any seasonal brew order today use code: <span class="underline font-bold text-caramel">MORNINGVIBES</span>
+    </div>
+
+    <!-- Navigation Bar -->
+    <header class="sticky top-0 z-40 bg-cream/90 backdrop-blur-md border-b border-warmbeige transition-all">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <span class="text-2xl font-serif font-bold tracking-tight text-espresso">Velvet & Bean<span class="text-terracotta">.</span></span>
+            </div>
+            <nav class="hidden md:flex items-center gap-8 font-medium text-sm">
+                <a href="#menu" class="hover:text-caramel transition-colors">Menu & Order</a>
+                <a href="#story" class="hover:text-caramel transition-colors">Our Craft</a>
+                <a href="#location" class="hover:text-caramel transition-colors">Visit Us</a>
+                <a href="#reviews" class="hover:text-caramel transition-colors">Reviews</a>
+            </nav>
+            <div class="flex items-center gap-4">
+                <button onclick="toggleDashboard()" class="hidden sm:inline-flex text-xs font-semibold uppercase tracking-wider bg-warmbeige px-3 py-2 rounded-lg hover:bg-caramel hover:text-white transition-all">
+                    Owner Portal 🔒
+                </button>
+                <button onclick="toggleCart()" class="relative bg-espresso text-cream p-3 rounded-full hover:bg-terracotta transition-colors shadow-sm flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                    </svg>
+                    <span id="cart-badge" class="absolute -top-1 -right-1 bg-terracotta text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-cream hidden">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative overflow-hidden py-16 lg:py-24 bg-gradient-to-b from-warmbeige/50 to-cream">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="space-y-6 text-center lg:text-left">
+                <span class="inline-block bg-sage/20 text-sage font-bold text-xs uppercase px-3 py-1 rounded-full tracking-widest">Handcrafted Excellence</span>
+                <h1 class="font-serif text-4xl sm:text-6xl font-bold tracking-tight text-espresso leading-[1.1]">
+                    Sip the art of <span class="italic font-normal text-terracotta">conscious</span> roasting.
+                </h1>
+                <p class="text-espresso/70 text-base sm:text-lg max-w-lg mx-auto lg:mx-0">
+                    Sustainably sourced, small-batch artisan coffee roasted daily. Order ahead and pay seamlessly via MTN Mobile Money.
+                </p>
+                <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+                    <a href="#menu" class="w-full sm:w-auto bg-espresso text-cream text-center font-semibold px-8 py-4 rounded-xl hover:bg-terracotta transition-all shadow-lg shadow-espresso/10">
+                        Explore Menu & Order
+                    </a>
+                    <a href="#location" class="w-full sm:w-auto border-2 border-espresso/20 text-espresso text-center font-semibold px-8 py-3.5 rounded-xl hover:border-espresso transition-all">
+                        Find Cafe Location
+                    </a>
+                </div>
+            </div>
+            <div class="relative">
+                <div class="relative rounded-2xl overflow-hidden shadow-2xl aspect-[4/3] bg-warmbeige">
+                    <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=80&w=1000" alt="Specialty Coffee" onerror="this.onerror=null;this.src='images/placeholder.svg'" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-espresso/60 via-transparent to-transparent flex items-end p-6">
+                        <div class="text-white">
+                            <p class="text-xs uppercase tracking-widest text-caramel font-semibold">Flagship Roastery</p>
+                            <p class="font-serif text-xl font-bold">Open Today until 7:00 PM</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Menu & Ordering Section -->
+    <section id="menu" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+            <h2 class="font-serif text-3xl sm:text-4xl font-bold tracking-tight mb-4">Our Curated Menu</h2>
+            <p class="text-espresso/70">Select items to customize options, choose your milk, and add them instantly to your pickup queue.</p>
+        </div>
+
+        <!-- Category Tabs -->
+        <div class="flex flex-wrap justify-center gap-2 mb-12" id="category-tabs">
+            <button onclick="filterMenu('all')" class="category-btn px-5 py-2.5 rounded-full text-sm font-semibold transition-all bg-espresso text-cream shadow-sm" data-category="all">All Items</button>
+            <button onclick="filterMenu('Hot Drinks')" class="category-btn px-5 py-2.5 rounded-full text-sm font-semibold transition-all bg-warmbeige text-espresso hover:bg-espresso/10" data-category="Hot Drinks">Hot Brews</button>
+            <button onclick="filterMenu('Cold Brews')" class="category-btn px-5 py-2.5 rounded-full text-sm font-semibold transition-all bg-warmbeige text-espresso hover:bg-espresso/10" data-category="Cold Brews">Cold Drinks</button>
+            <button onclick="filterMenu('Teas')" class="category-btn px-5 py-2.5 rounded-full text-sm font-semibold transition-all bg-warmbeige text-espresso hover:bg-espresso/10" data-category="Teas">Artisanal Teas</button>
+            <button onclick="filterMenu('Food')" class="category-btn px-5 py-2.5 rounded-full text-sm font-semibold transition-all bg-warmbeige text-espresso hover:bg-espresso/10" data-category="Food">Bakery & Food</button>
+        </div>
+
+        <!-- Menu Grid -->
+        <div id="menu-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Rendered dynamically by js/app.js -->
+        </div>
+    </section>
+
+    <!-- Store Locator & Map Section -->
+    <section id="location" class="py-20 bg-warmbeige/50 border-y border-warmbeige">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <span class="inline-block bg-terracotta/10 text-terracotta font-bold text-xs uppercase px-3 py-1 rounded-full tracking-widest">Visit the Cafe</span>
+                    <h2 class="font-serif text-3xl sm:text-4xl font-bold tracking-tight">Come smell the fresh roast</h2>
+                    <p class="text-espresso/70">Located in the heart of downtown, our flagship store features ambient seating, high-speed Wi-Fi, and live barista brewing bars.</p>
+                    <div class="space-y-4 pt-2">
+                        <div class="flex items-start gap-4">
+                            <div class="bg-espresso text-cream p-3 rounded-xl">📍</div>
+                            <div>
+                                <h3 class="font-bold text-sm">Address</h3>
+                                <p class="text-espresso/70 text-sm">KN 4 Ave, Nyarugenge, Kigali</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="bg-espresso text-cream p-3 rounded-xl">⏰</div>
+                            <div>
+                                <h3 class="font-bold text-sm">Hours of Operation</h3>
+                                <p class="text-espresso/70 text-sm">Monday – Sunday: 6:30 AM – 7:00 PM</p>
+                                <span class="inline-flex items-center gap-1.5 text-xs font-bold text-sage mt-1">
+                                    <span class="w-2 h-2 rounded-full bg-sage animate-pulse"></span> Open Now
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="h-[400px] bg-white p-2 rounded-2xl shadow-xl border border-warmbeige">
+                    <div id="map"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section id="reviews" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-12">
+            <div>
+                <span class="text-caramel font-bold text-xs uppercase tracking-widest">Community Feedback</span>
+                <h2 class="font-serif text-3xl sm:text-4xl font-bold tracking-tight mt-1">Loved by local coffee lovers</h2>
+            </div>
+            <button onclick="openReviewModal()" class="mt-4 md:mt-0 bg-warmbeige text-espresso font-semibold px-5 py-2.5 rounded-xl hover:bg-espresso hover:text-cream transition-all text-sm">
+                Leave a Review ✨
+            </button>
+        </div>
+
+        <div id="reviews-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Dynamic reviews -->
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-espresso text-cream py-12 border-t border-espresso/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+            <span class="font-serif text-xl font-bold tracking-tight">Velvet & Bean<span class="text-terracotta">.</span></span>
+            <p class="text-xs text-cream/60">© 2026 Velvet & Bean Co. All rights reserved. Powered by MTN Mobile Money (RWF).</p>
+            <div class="flex gap-6 text-sm text-cream/80">
+                <a href="#" class="hover:text-caramel transition-colors">Privacy</a>
+                <a href="#" class="hover:text-caramel transition-colors">Terms</a>
+                <a href="#" class="hover:text-caramel transition-colors">Instagram</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Slide-Out Shopping Cart Drawer -->
+    <div id="cart-drawer" class="fixed inset-0 z-50 overflow-hidden hidden">
+        <div class="absolute inset-0 bg-espresso/50 backdrop-blur-sm transition-opacity" onclick="toggleCart()"></div>
+        <div class="absolute inset-y-0 right-0 max-w-full flex pl-10">
+            <div class="w-screen max-w-md bg-cream shadow-2xl flex flex-col">
+                <div class="flex items-center justify-between p-6 border-b border-warmbeige">
+                    <h2 class="font-serif text-xl font-bold">Your Pickup Order</h2>
+                    <button onclick="toggleCart()" class="text-espresso/50 hover:text-espresso p-2 text-xl font-bold">✕</button>
+                </div>
+
+                <div id="cart-items-container" class="flex-1 overflow-y-auto p-6 space-y-4">
+                    <!-- Cart items populated here -->
+                </div>
+
+                <div class="border-t border-warmbeige p-6 space-y-4 bg-white/50">
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between text-espresso/70">
+                            <span>Subtotal</span>
+                            <span id="cart-subtotal">0 RWF</span>
+                        </div>
+                        <div class="flex justify-between text-espresso/70">
+                            <span>Estimated Tax (8%)</span>
+                            <span id="cart-tax">0 RWF</span>
+                        </div>
+                        <div class="flex justify-between font-bold text-lg text-espresso pt-2 border-t border-warmbeige">
+                            <span>Total Due</span>
+                            <span id="cart-total">0 RWF</span>
+                        </div>
+                    </div>
+
+                    <!-- Customer Info Input Fields -->
+                    <div class="space-y-3 pt-2">
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-espresso/70 mb-1">Your Name</label>
+                            <input type="text" id="customer-name" placeholder="e.g. Jean Bosco" class="w-full bg-cream border border-warmbeige rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-caramel">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-espresso/70 mb-1">Your MTN Mobile Money Number & WhatsApp Number</label>
+                            <input type="tel" id="momo-phone" placeholder="078XXXXXXXX or 079XXXXXXXX" class="w-full bg-cream border border-warmbeige rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-caramel">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-espresso/70 mb-1">Pickup Time</label>
+                            <select id="pickup-time" class="w-full bg-cream border border-warmbeige rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-caramel">
+                                <option>As soon as possible (~15 mins)</option>
+                                <option>In 30 minutes</option>
+                                <option>In 45 minutes</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- MTN MoMo Checkout Button -->
+                    <div class="space-y-2 pt-2">
+                        <button onclick="submitOrderViaMoMo()" id="momo-pay-btn" class="w-full bg-yellow-500 hover:bg-yellow-600 text-espresso font-bold py-3.5 rounded-xl shadow-md transition-all flex items-center justify-center gap-2 text-sm">
+                            <span>🟡 Pay with MTN MoMo & Send via WhatsApp</span>
+                        </button>
+                    </div>
+                    <p class="text-[11px] text-center text-espresso/50">Enter your PIN when prompted. WhatsApp will open automatically with your order details.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Item Customization Modal -->
+    <div id="customize-modal" class="fixed inset-0 z-50 overflow-y-auto hidden flex items-center justify-center p-4">
+        <div class="fixed inset-0 bg-espresso/50 backdrop-blur-sm" onclick="closeCustomizeModal()"></div>
+        <div class="relative bg-cream rounded-2xl max-w-lg w-full p-6 shadow-2xl z-10 space-y-6">
+            <div class="flex justify-between items-start">
+                <div>
+                    <h3 id="modal-item-title" class="font-serif text-2xl font-bold"></h3>
+                    <p id="modal-item-desc" class="text-sm text-espresso/70 mt-1"></p>
+                </div>
+                <button onclick="closeCustomizeModal()" class="text-espresso/50 hover:text-espresso font-bold text-lg">✕</button>
+            </div>
+
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-espresso/70 mb-2">Select Size</label>
+                    <div class="grid grid-cols-3 gap-3" id="size-options">
+                        <label class="border border-warmbeige rounded-xl p-3 text-center cursor-pointer hover:border-caramel transition-all text-sm font-medium">
+                            <input type="radio" name="size" value="Small" class="hidden"> Small
+                        </label>
+                        <label class="border-2 border-caramel bg-caramel/5 rounded-xl p-3 text-center cursor-pointer text-sm font-medium">
+                            <input type="radio" name="size" value="Medium" checked class="hidden"> Medium
+                        </label>
+                        <label class="border border-warmbeige rounded-xl p-3 text-center cursor-pointer hover:border-caramel transition-all text-sm font-medium">
+                            <input type="radio" name="size" value="Large" class="hidden"> Large
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-espresso/70 mb-2">Milk Choice</label>
+                    <select id="milk-choice" class="w-full bg-white border border-warmbeige rounded-xl p-3 text-sm focus:outline-none focus:border-caramel">
+                        <option value="Whole Milk">Whole Milk (Standard)</option>
+                        <option value="Oat Milk">Oat Milk (+ 800 RWF)</option>
+                        <option value="Almond Milk">Almond Milk (+ 800 RWF)</option>
+                        <option value="Skim Milk">Skim Milk</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-espresso/70 mb-2">Sweetness Level</label>
+                    <select id="sweetness-choice" class="w-full bg-white border border-warmbeige rounded-xl p-3 text-sm focus:outline-none focus:border-caramel">
+                        <option value="Standard Sweetness">Standard Recipe</option>
+                        <option value="Half Sweet">Half Sweet / Less Syrup</option>
+                        <option value="Unsweetened">Unsweetened / No Syrup</option>
+                    </select>
+                </div>
+            </div>
+
+            <button id="modal-add-btn" class="w-full bg-espresso text-cream font-semibold py-4 rounded-xl hover:bg-terracotta transition-all shadow-md">
+                Add to Cart — <span id="modal-item-price"></span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Review Submission Modal -->
+    <div id="review-modal" class="fixed inset-0 z-50 overflow-y-auto hidden flex items-center justify-center p-4">
+        <div class="fixed inset-0 bg-espresso/50 backdrop-blur-sm" onclick="closeReviewModal()"></div>
+        <div class="relative bg-cream rounded-2xl max-w-lg w-full p-6 shadow-2xl z-10 space-y-6">
+            <div class="flex justify-between items-start">
+                <h3 class="font-serif text-2xl font-bold">Write a Customer Review</h3>
+                <button onclick="closeReviewModal()" class="text-espresso/50 hover:text-espresso font-bold text-lg">✕</button>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-espresso/70 mb-1">Your Name</label>
+                    <input type="text" id="rev-name" placeholder="Ange Uwase" class="w-full bg-white border border-warmbeige rounded-xl p-3 text-sm focus:outline-none focus:border-caramel">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-espresso/70 mb-1">Rating</label>
+                    <select id="rev-rating" class="w-full bg-white border border-warmbeige rounded-xl p-3 text-sm focus:outline-none">
+                        <option value="★★★★★">★★★★★ (5/5 Stars - Exceptional)</option>
+                        <option value="★★★★☆">★★★★☆ (4/5 Stars - Great)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-espresso/70 mb-1">Review Message</label>
+                    <textarea id="rev-text" rows="3" placeholder="The cold brew here is unmatched..." class="w-full bg-white border border-warmbeige rounded-xl p-3 text-sm focus:outline-none focus:border-caramel"></textarea>
+                </div>
+                <button onclick="submitReview()" class="w-full bg-espresso text-cream font-semibold py-3.5 rounded-xl hover:bg-terracotta transition-all">Submit Review</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Owner Dashboard Portal Modal -->
+    <div id="dashboard-modal" class="fixed inset-0 z-50 overflow-y-auto hidden flex items-center justify-center p-4">
+        <div class="fixed inset-0 bg-espresso/50 backdrop-blur-sm" onclick="toggleDashboard()"></div>
+        <div class="relative bg-cream rounded-2xl max-w-2xl w-full p-6 shadow-2xl z-10 space-y-6 max-h-[80vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b border-warmbeige pb-4">
+                <div>
+                    <h3 class="font-serif text-2xl font-bold">Barista Order Portal 🔒</h3>
+                    <p class="text-xs text-espresso/70">Live feed of incoming paid pickup requests.</p>
+                </div>
+                <button onclick="toggleDashboard()" class="text-espresso/50 hover:text-espresso font-bold text-lg">✕</button>
+            </div>
+
+            <div>
+                <h4 class="font-bold text-sm text-espresso mb-3">Live Orders Feed</h4>
+                <div id="live-orders-feed" class="space-y-4">
+                    <div class="p-4 bg-white rounded-xl border border-warmbeige flex justify-between items-center">
+                        <div>
+                            <span class="text-xs font-bold bg-sage/20 text-sage px-2.5 py-1 rounded-md">Order #1042 • Paid via MoMo</span>
+                            <h4 class="font-bold text-sm mt-2">2x Oat Milk Latte, 1x Butter Croissant</h4>
+                            <p class="text-xs text-espresso/60 mt-1">Customer: David Miller (0781234567) • Pickup: As soon as possible</p>
+                        </div>
+                        <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-100">Preparing ☕</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaflet JS & App Logic -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
